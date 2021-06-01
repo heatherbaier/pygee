@@ -1,9 +1,16 @@
+from datetime import date, timedelta
 import matplotlib.pyplot as plt
 import geopandas as gpd
 import pandas as pd
+import numpy as np
+import calendar
+import datetime
 import shapely
+import random
 import pyproj
 import os
+import ee
+
 
 
 
@@ -24,7 +31,6 @@ def make_boxes(intersected_points, box, utm_proj):
     intersected_gdf = gpd.GeoDataFrame(geometry = [i for i in polys_gdf.geometry if box.contains(i)], crs = utm_proj)
 
     return intersected_gdf
-
 
 
 def find_intersecting_points(intersected, top_left_point, bottom_left_point, inital_point, test_point, bounding_box, box):
@@ -50,8 +56,6 @@ def find_intersecting_points(intersected, top_left_point, bottom_left_point, ini
     intersected_points = [i for i in points if i.within(box)]
 
     return intersected_points
-
-
 
 
 def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
@@ -98,7 +102,6 @@ def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
     print(e)
 
 
-
 def makeGBdir(iso):
   
     # If the folder already exists, delete it
@@ -118,9 +121,6 @@ def makeGBdir(iso):
     return os.path.join("./data", iso)
 
 
-
-
-
 def SetUp(year, month, iso):
 
   """TODO: Make this make the imagery folder!"""
@@ -132,62 +132,10 @@ def SetUp(year, month, iso):
     os.mkdir(os.path.join(("./" + iso + "imagery"), year))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-from datetime import date, timedelta
-import geopandas as gpd
-import pandas as pd
-import numpy as np
-import calendar
-import datetime
-import shapely
-import random
-import pyproj
-import ee
-import os
-import pyproj
-
-
-
-def CalcBbox(x):
-    """
-        Calculate bounding box of a polgyon and return as a shapely polygon
-    """
-    bounds = list(x.bounds)
-    box = shapely.geometry.box(bounds[0], bounds[1], bounds[2], bounds[3])
-    return box.wkt
-
-
-def GetMonths(year):
-    flist = []
-    for i in range(1, 13):
-        r = list(calendar.monthrange(year, i))[1]
-#         sdate = datetime.date(year, i, 1)
-#         edate = datetime.date(year, i, r)
-        sdate = "-".join([str(year), str(i), str(1)])
-        edate = "-".join([str(year), str(i), str(r)])
-        
-        flist.append([sdate, edate])
-        
-    return flist
-
-
 def GetInfo(im):
     pid = im.get('LANDSAT_PRODUCT_ID')
     cloudiness = im.get('CLOUD_COVER')
     return [str(pid.getInfo()), str(cloudiness.getInfo())]
-
 
 
 def GetDates(start, end, d):
@@ -217,7 +165,6 @@ def GetDates(start, end, d):
     return final_dates
 
 
-
 def ConvertToFeature(shp):
     """
     Function to convert shapely polygons/geopandas DF to GEE Feature Collection
@@ -241,7 +188,6 @@ def ConvertToFeature(shp):
     ee_object = ee.FeatureCollection(features)
         
     return ee_object
-
 
 
 def MultiToPoly(x):
@@ -269,102 +215,12 @@ def MultiToPoly(x):
         return x
 
 
-
-def GetImageCounts(start, end, d):
-    
-    """
-    Function to get the number of images found between sets of dates
-    Inputs:
-        - start: Start date (formatted as: '2010-01-01')
-        - end:   End date (formatted as: '2010-01-01')
-        - d:     Time delta (number of dates between each date in outputted list) 
-    Output:
-        - Pandas DataFrame with the start date and counts of images in each row
-    """
-    
-# gdf = gpd.read_file("./data/MexicoPRs.shp")
-# gdf = gdf[['shapeName', 'shapeID', 'PATH', 'ROW', 'PR', 'geometry']]
-# gdf.head()
-    # Intitialize variables and get all of the dates in a user given range
-    df, counts, all_dates= pd.DataFrame(), [], []
-    dates = GetDates(start, end, d)
-    
-    # Get Mexico's border
-    mex = ee.FeatureCollection('USDOS/LSIB_SIMPLE/2017').filterMetadata('country_na', 'equals', 'Mexico')
-    
-    # For every date...
-    while len(dates) >= 2:
-        
-        # Filter the iamge collection to days that are d days apart
-        ic = ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA').filterDate(str(dates[0]), str(dates[1])).filterBounds(mex)
-        print(ic.size().getInfo())
-        
-        # Append the Date and count of images to lists
-        counts.append(ic.size().getInfo())
-        all_dates.append(dates[0])
-        del dates[0]
-        
-    # Make a dataframe to export with the dates and count of images on that date/before the next
-    df['Date'], df['Count'] = all_dates, counts
-    
-    return df
-
-
-
-
-
-
-
-# def makeGBdir(iso):
-  
-#     # If the folder already exists, delete it
-#     if os.path.isdir(os.path.join("./data", iso)):
-#         shutil.rmtree(os.path.join("./data", iso))
-#     else:
-#         "Couldn't delete old folder"
-    
-#     # Create new folder
-#     os.mkdir(os.path.join("./data", iso))
-
-#     # ...and return the path
-#     return os.path.join("./data", iso)
-
-
-
 def GetDays(year, month):
   r = list(calendar.monthrange(int(year), int(month)))[1]
   sdate = "-".join([str(year), str(month), str(1)])
   edate = "-".join([str(year), str(month), str(r)])
 
   return [sdate, edate]
-
-
-def makeBboxDir(iso):
-    path = os.path.join("./data/", iso, (iso + "_bbox"))
-    if os.path.isdir(path):
-        shutil.rmtree(path)
-    os.mkdir(path)
-    
-
-    
-def generate_random(x):
-  number = 4
-  points = []
-  minx, miny, maxx, maxy = x.bounds
-  while len(points) < number:
-    pnt = shapely.geometry.Point(random.uniform(minx, maxx), random.uniform(miny, maxy))
-    if x.contains(pnt):
-      points.append(pnt)
-  return points
-
-
-
-
-
-def CalcDist(pixelSize, resolution):
-    return (pixelSize * resolution) / 2    
-
-
 
 
 def CreatePoly(row):
@@ -386,42 +242,3 @@ def ListifyPoints(x, index):
     return x[index]
 
 
-def CreateBoxes(shp, zone, dist):
-    
-    # Reproject to UTM
-    utm_string = "+proj=utm +zone=" + str(zone) + " +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
-    utm_proj = pyproj.CRS.from_proj4(utm_string)
-    shp.geometry = shp.geometry.to_crs(utm_proj)
-    
-    # Create UTM Box Coords
-#    geom = pd.DataFrame(shp.geometry)
-
-    shp['utm_latitude'] = shp.geometry.apply(lambda x: ListifyPoints(x, 0)) 
-    shp['utm_longitude'] = shp.geometry.apply(lambda x: ListifyPoints(x, 1)) 
-    
-    shp['bbox_ur_lat'] = shp['utm_latitude'] + dist
-    shp['bbox_ur_long'] = shp['utm_longitude'] + dist
-    
-    shp['bbox_lr_lat'] = shp['utm_latitude'] + dist
-    shp['bbox_lr_long'] = shp['utm_longitude'] - dist
-
-    shp['bbox_ll_lat'] = shp['utm_latitude'] - dist
-    shp['bbox_ll_long'] = shp['utm_longitude'] - dist
-
-    shp['bbox_ul_lat'] = shp['utm_latitude'] - dist
-    shp['bbox_ul_long'] = shp['utm_longitude'] + dist
-    
-    # Create Box Polygons from each row in the dataframe
-    final_polys = []
-    for col, row in shp.iterrows():
-        cur_poly = CreatePoly(row)
-        final_polys.append(cur_poly)
-    shp['box'] = final_polys
-    
-    # Create gpd and assign CRS then reproject
-    geom = gpd.GeoDataFrame(shp, geometry=shp.box, crs = utm_proj)
-    geom.geometry.crs = utm_string
-    geom = geom.to_crs(epsg=4326)
-#     geom = geom.drop(['box'], axis = 1)
-    
-    return geom
