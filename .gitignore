@@ -6,4 +6,5 @@ MEX4imagery
 model_imagery2
 test
 tmp
-test.ipynb
+*.ipynb
+*.zip
