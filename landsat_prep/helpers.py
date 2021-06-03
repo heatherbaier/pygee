@@ -73,7 +73,7 @@ def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
     # Project the box into meters
     # municipality = shapely.ops.transform(projection, shape)
     box = shapely.ops.transform(projection, box)
-    
+
     # Get the min and max bounding coords and make them into a shapely Polygon
     bounds = box.bounds
     min_x, min_y, max_x, max_y = bounds[0], bounds[1], bounds[2], bounds[3]
@@ -105,7 +105,7 @@ def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
 
   except Exception as e:
 
-    print(e)
+    print("The selected municiaplity is too small to create imagerybounding boxes of the specified size. Please input a different, larger, municipality.")
 
 
 def makeGBdir(iso):

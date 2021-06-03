@@ -5,6 +5,7 @@ import argparse
 import shapely
 import pyproj
 import shutil
+import os
 
 from .helpers import *
 

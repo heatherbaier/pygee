@@ -53,7 +53,9 @@ def clip_image(im):
 #         print("Skipping")
         
         
-        
+def reshape_arrays(lst):
+    if lst[0].shape == lst[1].shape == lst[3].shape:
+        print("yes")
 
 
 def save_pngs(shapeID):
@@ -89,14 +91,13 @@ def save_pngs(shapeID):
             b3 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B3.tif")][0])
 
             b1, b2, b3 = rio.open(b1).read(1), rio.open(b2).read(1), rio.open(b3).read(1)
-            lst = [b3, b2, b1]
-            stack = np.dstack(lst)
-            PIL_image = Image.fromarray(np.uint8(stack)).convert('RGB')
-            PIL_image = clip_image(PIL_image)
+            b1, b2, b3 = Image.fromarray(np.uint8(b1)), Image.fromarray(np.uint8(b2)), Image.fromarray(np.uint8(b3))
+            stack = np.dstack([np.array(clip_image(i)) for i in [b3, b2, b1]])
+            PIL_image = Image.fromarray(np.uint8(stack))#.convert('RGB')
 
             PIL_image.save(os.path.join(SAVE_DIR, (image_name + "_MAY" + ".png")))
 
-            [os.remove(os.path.join(TEMP_DIR, i)) for i in os.listdir(TEMP_DIR) if i.startswith("484")]
+            [os.remove(os.path.join(TEMP_DIR, i)) for i in os.listdir(TEMP_DIR) if i.startswith("MEX")]
             
         except Exception as e:
             
