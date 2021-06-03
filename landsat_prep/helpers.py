@@ -62,7 +62,8 @@ def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
 
   try:
 
-    shapeID = str(box.CNTRY_CODE) + str(box.IPUM2010)
+    shapeID = str(box.shapeID)# + str(box.IPUM2010)
+    # shapeID = str(box.CNTRY_CODE) + str(box.IPUM2010)
     print(shapeID)
     box = box.geometry
 
@@ -95,6 +96,8 @@ def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
     ref = pd.DataFrame([shapeID for i in range(0, len(intersected_gdf))])
     to_save = gpd.GeoDataFrame(ref, geometry = [shapely.ops.transform(projection_back, i) for i in intersected_gdf.geometry], crs = wgs84)
     to_save = to_save.rename(columns = {0: 'shapeID'})
+    to_save.columns = ["muni", "geometry"]
+    to_save["shapeID"] = [i for i in range(0, len(to_save))]
     to_save.to_file(gdf_name)
 
   except Exception as e:
@@ -178,7 +181,7 @@ def ConvertToFeature(shp):
     features=[]
     
     x,y = shp.exterior.coords.xy
-    print(x,y)
+    # print(x,y)
     cords = np.dstack((x,y)).tolist()
 
     g = ee.Geometry.Polygon(cords)

@@ -4,11 +4,12 @@ import pandas as pd
 import argparse
 import shapely
 import pyproj
+import shutil
 
 from helpers import *
 
 
-def main(gb_path, iso):
+def create_imagery_boxes(gb_path, iso):
 
     bbox = gpd.read_file(gb_path)
 
@@ -51,6 +52,37 @@ def main(gb_path, iso):
 
 
 
+def create_single_imagery_boxes(gb_path, iso, adm_id):
+
+    bbox = gpd.read_file(gb_path)
+    bbox = bbox[bbox['shapeID'] == adm_id]
+
+    # Project the box into the meters projection
+    wgs84 = pyproj.CRS('EPSG:4326')
+    utm_proj_string = "+proj=utm +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+    utm_proj = pyproj.CRS.from_proj4(utm_proj_string)
+    projection = pyproj.Transformer.from_crs(wgs84, utm_proj, always_xy = True).transform
+    projection_back = pyproj.Transformer.from_crs(utm_proj, wgs84, always_xy=True).transform
+
+    BOXES_DIR = os.path.join("./data/", adm_id)
+
+    print(BOXES_DIR)
+
+    # If the folder already exists, delete it
+    if os.path.isdir(BOXES_DIR):
+        shutil.rmtree(BOXES_DIR)
+
+    os.mkdir(BOXES_DIR)
+
+    print("Creating imagery bounding boxes shapefile in ", BOXES_DIR)
+
+    for col, row in bbox.iterrows():
+        make_points(row, projection, projection_back, BOXES_DIR, utm_proj, wgs84)
+
+    print("Done creating imagery bounding boxes.")
+
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("iso", help="Country ISO")
@@ -61,4 +93,4 @@ if __name__ == "__main__":
 
     print(gb_path)
     
-    main(gb_path, args.iso)
+    create_imagery_boxes(gb_path, args.iso)
