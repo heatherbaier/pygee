@@ -8,6 +8,7 @@ import datetime
 import shapely
 import random
 import pyproj
+import shutil
 import os
 import ee
 
