@@ -7,7 +7,7 @@ import shutil
 import json
 import os
 
-from helpers import *
+from .helpers import *
 
 
 def main(iso, adm):
