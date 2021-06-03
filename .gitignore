@@ -8,3 +8,6 @@ test
 tmp
 *.ipynb
 *.zip
+landsat_prep/download_imagery_ipums.py
+landsat_prep/save_boxes_ipums.py
+run.sh
