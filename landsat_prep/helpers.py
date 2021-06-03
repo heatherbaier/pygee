@@ -19,10 +19,10 @@ def make_boxes(intersected_points, box, utm_proj):
     # For each of the points that intersected with the bounding box, create a 224x224px square around it
     polys = []
     for p in range(0, len(intersected_points)):
-        m1, m2 = intersected_points[p].x + 3360, intersected_points[p].y + 3360
-        m3, m4 = intersected_points[p].x - 3360, intersected_points[p].y + 3360
-        m5, m6 = intersected_points[p].x - 3360, intersected_points[p].y - 3360
-        m7, m8 = intersected_points[p].x + 3360, intersected_points[p].y - 3360
+        m1, m2 = intersected_points[p].x + 7680, intersected_points[p].y + 7680
+        m3, m4 = intersected_points[p].x - 7680, intersected_points[p].y + 7680
+        m5, m6 = intersected_points[p].x - 7680, intersected_points[p].y - 7680
+        m7, m8 = intersected_points[p].x + 7680, intersected_points[p].y - 7680
         polygon = shapely.geometry.Polygon([[m1, m2], [m3, m4], [m5, m6], [m7, m8]])
         polys.append(polygon)
 
@@ -31,6 +31,7 @@ def make_boxes(intersected_points, box, utm_proj):
     intersected_gdf = gpd.GeoDataFrame(geometry = [i for i in polys_gdf.geometry if box.contains(i)], crs = utm_proj)
 
     return intersected_gdf
+
 
 
 def find_intersecting_points(intersected, top_left_point, bottom_left_point, inital_point, test_point, bounding_box, box):
@@ -43,19 +44,20 @@ def find_intersecting_points(intersected, top_left_point, bottom_left_point, ini
         points.append(test_point)
 
         # Move the test point to the right a bit and test if it intersects with the bounding box
-        test_point = shapely.geometry.Point(test_point.x + 6720, test_point.y)
+        test_point = shapely.geometry.Point(test_point.x + 15360.0, test_point.y)
         intersected = test_point.within(bounding_box)
 
         # If the point moving to the right no longer intersects AND the point can still move down...
         if (test_point.y  > bottom_left_point.y) and (not intersected):
 
             # Move the point point back to the initial left position and scooch it down, then test if it intersects
-            test_point = shapely.geometry.Point(inital_point.x, test_point.y - 6720)
+            test_point = shapely.geometry.Point(inital_point.x, test_point.y - 15360.0)
             intersected = test_point.within(bounding_box)
 
     intersected_points = [i for i in points if i.within(box)]
 
     return intersected_points
+
 
 
 def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
@@ -79,8 +81,8 @@ def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
     # Make the initial top left point of the bounding box
     top_left_point    = shapely.geometry.Point(min_x, max_y)
     bottom_left_point = shapely.geometry.Point(min_x, min_y)
-    inital_point      = shapely.geometry.Point(top_left_point.x + 6720.0, top_left_point.y - 6720.0)
-    test_point        = shapely.geometry.Point(top_left_point.x + 6720.0, top_left_point.y - 6720.0)
+    inital_point      = shapely.geometry.Point(top_left_point.x + 7680.0, top_left_point.y - 7680.0)
+    test_point        = shapely.geometry.Point(top_left_point.x + 7680.0, top_left_point.y - 7680.0)
 
     # Double check that it intersects with our overall bounding box
     intersected = inital_point.within(bounding_box)
