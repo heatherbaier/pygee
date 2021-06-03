@@ -6,7 +6,7 @@ import shapely
 import pyproj
 import shutil
 
-from helpers import *
+from .helpers import *
 
 
 def create_imagery_boxes(gb_path, iso):

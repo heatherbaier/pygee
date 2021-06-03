@@ -15,7 +15,7 @@ import shutil
 import ee
 import os
 
-from helpers import *
+from .helpers import *
 
 
 def main(year, ic, shp, month, iso):
