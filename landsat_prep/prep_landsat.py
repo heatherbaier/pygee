@@ -11,10 +11,10 @@ from .download_imagery import download_imagery
 from .save_pngs import save_pngs, clip_image
 
 
-GB_PATH = "/Users/heatherbaier/Desktop/CAOE/data/MEX/MEX_ADM2_fixedInternalTopology.shp"
-ISO = "MEX"
-ADM_ID = "MEX-ADM2-1590546715-B8"
-IC = "LANDSAT/LT05/C01/T1"
+# GB_PATH = "/Users/heatherbaier/Desktop/CAOE/data/MEX/MEX_ADM2_fixedInternalTopology.shp"
+# ISO = "MEX"
+# ADM_ID = "MEX-ADM2-1590546715-B8"
+# IC = "LANDSAT/LT05/C01/T1"
 
 
 def prep_landsat(gb_path, iso, shapeID, year, month, ic):
@@ -26,4 +26,4 @@ def prep_landsat(gb_path, iso, shapeID, year, month, ic):
     save_pngs(shapeID = shapeID)
 
 
-prep_landsat(GB_PATH, ISO, ADM_ID, "2010", "1", IC)
+# prep_landsat(GB_PATH, ISO, ADM_ID, "2010", "1", IC)
