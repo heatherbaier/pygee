@@ -10,7 +10,7 @@ import os
 from .helpers import *
 
 
-def create_imagery_boxes(gb_path, iso, v = True):
+def create_imagery_boxes(gb_path, iso):
 
     bbox = gpd.read_file(gb_path)
 
@@ -56,7 +56,7 @@ def create_imagery_boxes(gb_path, iso, v = True):
 
 
 
-def create_single_imagery_boxes(gb_path, iso, adm_id):
+def create_single_imagery_boxes(gb_path, iso, adm_id, v = True):
 
     bbox = gpd.read_file(gb_path)
     bbox = bbox[bbox['shapeID'] == adm_id]
