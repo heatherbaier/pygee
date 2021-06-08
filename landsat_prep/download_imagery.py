@@ -86,7 +86,7 @@ def main(year, ic, shp, month, iso):
 
 
 
-def download_imagery(shapeID, year, ic, month, iso):
+def download_imagery(shapeID, year, ic, month, iso, v = True):
 
     SHP_PATH = os.path.join("./data/", shapeID, (shapeID + ".shp"))
     shp = gpd.read_file(SHP_PATH)
@@ -122,7 +122,8 @@ def download_imagery(shapeID, year, ic, month, iso):
             # Grab Landsat 5 Bands 1, 2 and 3 for the current month, year and ADM2
             l5 = ee.ImageCollection(ic).filterDate(dates[0], dates[1]).filterBounds(cur_shp)
 
-            print(row.shapeID, " has ", l5.size().getInfo(), " images available in ", year)
+            if v:
+                print(row.shapeID, " has ", l5.size().getInfo(), " images available in ", year)
 
             # Mosaic the images together using the min (using min to avoid the high values of clouds)
             m = ee.Algorithms.Landsat.simpleComposite(l5).select(['B3', 'B2', 'B1'])

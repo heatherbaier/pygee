@@ -58,7 +58,7 @@ def reshape_arrays(lst):
         print("yes")
 
 
-def save_pngs(shapeID):
+def save_pngs(shapeID, v = True):
 
     FULL_DIR = os.path.join("./data/", shapeID, "imagery")
     TEMP_DIR = os.path.join("./data/", shapeID, "temp")
@@ -76,7 +76,9 @@ def save_pngs(shapeID):
     
         try:
             
-            print("Image ", str(num), " of ", str(dir_length), "---- Month: May")
+            if v:
+                print("Image ", str(num), " of ", str(dir_length), "---- Month: May")
+                
             num += 1
 
             image_name = zipfolder.split(".zip")[0]
