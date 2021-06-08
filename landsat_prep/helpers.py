@@ -67,7 +67,7 @@ def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
 
     shapeID = str(box.shapeID)# + str(box.IPUM2010)
     # shapeID = str(box.CNTRY_CODE) + str(box.IPUM2010)
-    print(shapeID)
+    # print(shapeID)
     box = box.geometry
 
     # Project the box into meters
