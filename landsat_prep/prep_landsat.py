@@ -30,7 +30,13 @@ def prep_landsat(gb_path, iso, shapeID, year, month, ic, v = True):
         IC = "LANDSAT/LT05/C01/T1"
         V = True
 
-        prep_landsat(GB_PATH, ISO, ADM_ID, "2010", "1", IC, v = V)
+        prep_landsat(GB_PATH, 
+                     iso = ISO, 
+                     shapeID = ADM_ID, 
+                     year = "2010", 
+                     month = "1", 
+                     ic = IC, 
+                     v = V)
     """
 
     create_single_imagery_boxes(gb_path = gb_path, iso = iso, adm_id = shapeID, v = v)

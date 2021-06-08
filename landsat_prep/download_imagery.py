@@ -88,6 +88,31 @@ def main(year, ic, shp, month, iso):
 
 def download_imagery(shapeID, year, ic, month, iso, v = True):
 
+    """
+    ARGS:
+        - shapeID: Name of target polgyon to download Landsat imagery for
+        - year: Year of Landsat imagery
+        - ic: GEE Imagery Collection (needs to be raw images i.e. NOT TOA)
+        - month: Month of Landsat imagery
+        - iso: ISO3C shapefile (used to locate directory and name files)
+        - v: Verbose (If True, print out messages, if False, don't)
+
+    EXAMPLE USAGE:
+        ADM_ID = "MEX-ADM2-1590546715-B8"
+        YEAR = "2010"
+        IC = "LANDSAT/LT05/C01/T1"
+        MONTH = "8"
+        ISO = "MEX"
+        V = True
+        
+        download_imagery(shapeID = ADM_ID, 
+                         year = YEAR, 
+                         ic = IC, 
+                         month = MONTH, 
+                         iso = ISO, 
+                         v = V)
+    """
+
     SHP_PATH = os.path.join("./data/", shapeID, (shapeID + ".shp"))
     shp = gpd.read_file(SHP_PATH)
 

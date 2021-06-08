@@ -55,6 +55,25 @@ def create_imagery_boxes(gb_path, iso):
 
 def create_single_imagery_boxes(gb_path, iso, adm_id, v = True):
 
+    """
+    ARGS:
+        - gb_path: Path to shapefile that contains 1) a column entitle 'shapeID' and 2) a row in that column with a polygon matching shapeID input
+        - iso: ISO3C shapefile (used to locate directory and name files)
+        - shapeID: Name of target polgyon to download Landsat imagery for
+        - v: Verbose (If True, print out messages, if False, don't)
+
+    EXAMPLE USAGE:
+        GB_PATH = "/Users/heatherbaier/Desktop/CAOE/data/MEX/MEX_ADM2_fixedInternalTopology.shp"
+        ISO = "MEX"
+        ADM_ID = "MEX-ADM2-1590546715-B8"
+        V = True
+        
+        create_single_imagery_boxes(gb_path = GB_PATH, 
+                                    iso = ISO, 
+                                    adm_id = ADM_ID, 
+                                    v = V)
+    """
+
     bbox = gpd.read_file(gb_path)
     bbox = bbox[bbox['shapeID'] == adm_id]
 
