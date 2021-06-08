@@ -6,7 +6,7 @@ MEX4imagery
 model_imagery2
 test
 tmp
-*.ipynb
+# *.ipynb
 *.zip
 landsat_prep/download_imagery_ipums.py
 landsat_prep/save_boxes_ipums.py
