@@ -23,8 +23,7 @@ def create_imagery_boxes(gb_path, iso):
 
     BOXES_DIR = os.path.join("./data/", args.iso, "imagery_bboxes")
 
-    if v:
-        print(BOXES_DIR)
+    print(BOXES_DIR)
 
     # If the folder already exists, delete it
     if os.path.isdir(BOXES_DIR):
@@ -32,8 +31,7 @@ def create_imagery_boxes(gb_path, iso):
 
     os.mkdir(BOXES_DIR)
 
-    if v:
-        print("Creating imagery bounding boxes shapefile in ", BOXES_DIR)
+    print("Creating imagery bounding boxes shapefile in ", BOXES_DIR)
 
     for col, row in bbox.iterrows():
         make_points(row, projection, projection_back, BOXES_DIR, utm_proj, wgs84)
@@ -51,8 +49,7 @@ def create_imagery_boxes(gb_path, iso):
     SHP_PATH = os.path.join("./data/", args.iso, (args.iso + "imagery_bboxes.shp"))
     all_boxes.to_file(SHP_PATH)
 
-    if v:
-        print("Done creating imagery bounding boxes.")
+    print("Done creating imagery bounding boxes.")
 
 
 
@@ -70,7 +67,8 @@ def create_single_imagery_boxes(gb_path, iso, adm_id, v = True):
 
     BOXES_DIR = os.path.join("./data/", adm_id)
 
-    print(BOXES_DIR)
+    if v:
+        print(BOXES_DIR)
 
     # If the folder already exists, delete it
     if os.path.isdir(BOXES_DIR):
@@ -78,12 +76,14 @@ def create_single_imagery_boxes(gb_path, iso, adm_id, v = True):
 
     os.mkdir(BOXES_DIR)
 
-    print("Creating imagery bounding boxes shapefile in ", BOXES_DIR)
+    if v:
+        print("Creating imagery bounding boxes shapefile in ", BOXES_DIR)
 
     for col, row in bbox.iterrows():
         make_points(row, projection, projection_back, BOXES_DIR, utm_proj, wgs84)
 
-    print("Done creating imagery bounding boxes.")
+    if v:
+        print("Done creating imagery bounding boxes.")
 
 
 
