@@ -99,7 +99,7 @@ def save_pngs(shapeID, iso, v = True):
 
             PIL_image.save(os.path.join(SAVE_DIR, (image_name + "_MAY" + ".png")))
 
-            [os.remove(os.path.join(TEMP_DIR, i)) for i in os.listdir(TEMP_DIR) if i.startswith("MEX")]
+            [os.remove(os.path.join(TEMP_DIR, i)) for i in os.listdir(TEMP_DIR)]
             
         except Exception as e:
             
