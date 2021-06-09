@@ -218,6 +218,21 @@ def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, v = True):
     # Set up imagery directories
     # SetUp(year, month, iso)
 
+    cur_directory = os.path.join("./data/", iso, shapeID)
+    try:
+        os.mkdir(cur_directory)
+    except:
+        
+        shutil.rmtree(cur_directory)
+        os.mkdir(cur_directory)
+    
+    cur_directory = os.path.join("./data/", iso, shapeID, "imagery")
+    try:
+        os.mkdir(cur_directory)
+    except:
+        shutil.rmtree(cur_directory)
+        os.mkdir(cur_directory)
+
     # Make a new directory to organize the imagery
     cur_directory = os.path.join("./data/", iso, shapeID, "imagery")
     os.mkdir(cur_directory)
