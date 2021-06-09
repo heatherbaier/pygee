@@ -113,7 +113,7 @@ def download_imagery(shapeID, year, ic, month, iso, v = True):
                          v = V)
     """
 
-    SHP_PATH = os.path.join("./data/", shapeID, (shapeID + ".shp"))
+    SHP_PATH = os.path.join("./data/", iso, shapeID, (shapeID + ".shp"))
     shp = gpd.read_file(SHP_PATH)
 
     ee.Initialize()
@@ -125,7 +125,7 @@ def download_imagery(shapeID, year, ic, month, iso, v = True):
     # SetUp(year, month, iso)
 
     # Make a new directory to organize the imagery
-    cur_directory = os.path.join("./data/", shapeID, "imagery")
+    cur_directory = os.path.join("./data/", iso, shapeID, "imagery")
     os.mkdir(cur_directory)
 
     boxes_dict = {}

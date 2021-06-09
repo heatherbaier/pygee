@@ -84,7 +84,7 @@ def create_single_imagery_boxes(gb_path, iso, adm_id, v = True):
     projection = pyproj.Transformer.from_crs(wgs84, utm_proj, always_xy = True).transform
     projection_back = pyproj.Transformer.from_crs(utm_proj, wgs84, always_xy=True).transform
 
-    BOXES_DIR = os.path.join("./data/", adm_id)
+    BOXES_DIR = os.path.join("./data/", iso, adm_id)
 
     if v:
         print(BOXES_DIR)

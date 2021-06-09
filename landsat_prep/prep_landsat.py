@@ -41,7 +41,7 @@ def prep_landsat(gb_path, iso, shapeID, year, month, ic, v = True):
 
     create_single_imagery_boxes(gb_path = gb_path, iso = iso, adm_id = shapeID, v = v)
     download_imagery(shapeID = shapeID, year = year, ic = ic, month = month, iso = iso, v = v)
-    save_pngs(shapeID = shapeID, v = v)
+    save_pngs(shapeID = shapeID, iso = iso, v = v)
 
     if v:
         print("Done prepping Landsat imagery for ", str(shapeID))

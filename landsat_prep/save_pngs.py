@@ -58,11 +58,11 @@ def reshape_arrays(lst):
         print("yes")
 
 
-def save_pngs(shapeID, v = True):
+def save_pngs(shapeID, iso, v = True):
 
-    FULL_DIR = os.path.join("./data/", shapeID, "imagery")
-    TEMP_DIR = os.path.join("./data/", shapeID, "temp")
-    SAVE_DIR = os.path.join("data", shapeID, "pngs")
+    FULL_DIR = os.path.join("./data/", iso, shapeID, "imagery")
+    TEMP_DIR = os.path.join("./data/", iso, shapeID, "temp")
+    SAVE_DIR = os.path.join("./data/", iso, shapeID, "pngs")
     dir_length = len(os.listdir(FULL_DIR))
     num = 0
 
