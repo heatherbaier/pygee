@@ -222,11 +222,17 @@ def MultiToPoly(x):
 
 
 def GetDays(year, month):
-  r = list(calendar.monthrange(int(year), int(month)))[1]
-  sdate = "-".join([str(year), str(month), str(1)])
-  edate = "-".join([str(year), str(month), str(r)])
+    
+    if month != 'all':
+        r = list(calendar.monthrange(int(year), int(month)))[1]
+        sdate = "-".join([str(year), str(month), str(1)])
+        edate = "-".join([str(year), str(month), str(r)])
+        return [sdate, edate]
+    else:
+        sdate = str(year) + "-" + str(1) + "-" + str(1)
+        edate = str(year) + "-" + str(12) + "-" + str(31)
+        return [sdate, edate]
 
-  return [sdate, edate]
 
 
 def CreatePoly(row):
