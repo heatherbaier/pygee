@@ -108,23 +108,45 @@ def make_points(box, projection, projection_back, boxes_dir, utm_proj, wgs84):
     print("The selected municiaplity is too small to create imagerybounding boxes of the specified size. Please input a different, larger, municipality.")
 
 
-def makeGBdir(iso):
+# def makeGBdir(iso):
+  
+#     # If the folder already exists, delete it
+#     if os.path.isdir(os.path.join("./data", iso)):
+#         shutil.rmtree(os.path.join("./data", iso))
+#     else:
+#         "Couldn't delete old folder"
+    
+#     # Create new folder
+#     try:
+#         os.mkdir(os.path.join("./data", iso))
+#     except:
+#         os.mkdir("./data")
+#         os.mkdir(os.path.join("./data", iso))
+
+#     # ...and return the path
+#     return os.path.join("./data", iso)
+
+
+
+def makeGBdir(iso, base_dir):
   
     # If the folder already exists, delete it
-    if os.path.isdir(os.path.join("./data", iso)):
-        shutil.rmtree(os.path.join("./data", iso))
+    if os.path.isdir(os.path.join(base_dir, iso)):
+        shutil.rmtree(os.path.join(base_dir, iso))
     else:
         "Couldn't delete old folder"
     
     # Create new folder
     try:
-        os.mkdir(os.path.join("./data", iso))
+        os.mkdir(os.path.join(base_dir, iso))
     except:
-        os.mkdir("./data")
-        os.mkdir(os.path.join("./data", iso))
+        os.mkdir(base_dir)
+        os.mkdir(os.path.join(base_dir, iso))
 
     # ...and return the path
-    return os.path.join("./data", iso)
+    return os.path.join(base_dir, iso)
+
+
 
 
 def SetUp(year, month, iso):

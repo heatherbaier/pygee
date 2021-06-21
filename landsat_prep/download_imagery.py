@@ -86,7 +86,7 @@ def main(year, ic, shp, month, iso):
 
 
 
-def download_imagery(shapeID, year, ic, month, iso, v = True):
+def download_imagery(shapeID, year, ic, month, iso, base_dir, v = True):
 
     """
     ARGS:
@@ -113,7 +113,7 @@ def download_imagery(shapeID, year, ic, month, iso, v = True):
                          v = V)
     """
 
-    SHP_PATH = os.path.join("./data/", iso, shapeID, (shapeID + ".shp"))
+    SHP_PATH = os.path.join(base_dir, iso, shapeID, (shapeID + ".shp"))
     shp = gpd.read_file(SHP_PATH)
 
     ee.Initialize()
@@ -125,7 +125,7 @@ def download_imagery(shapeID, year, ic, month, iso, v = True):
     # SetUp(year, month, iso)
 
     # Make a new directory to organize the imagery
-    cur_directory = os.path.join("./data/", iso, shapeID, "imagery")
+    cur_directory = os.path.join(base_dir, iso, shapeID, "imagery")
     os.mkdir(cur_directory)
 
     boxes_dict = {}
@@ -179,7 +179,7 @@ def download_imagery(shapeID, year, ic, month, iso, v = True):
 
 
 
-def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, v = True):
+def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, base_dir, v = True):
 
     """
     ARGS:
@@ -218,7 +218,7 @@ def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, v = True):
     # Set up imagery directories
     # SetUp(year, month, iso)
 
-    cur_directory = os.path.join("./data/", iso, shapeID)
+    cur_directory = os.path.join(base_dir, iso, shapeID)
     try:
         os.mkdir(cur_directory)
     except:
@@ -226,16 +226,12 @@ def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, v = True):
         shutil.rmtree(cur_directory)
         os.mkdir(cur_directory)
     
-    cur_directory = os.path.join("./data/", iso, shapeID, "imagery")
+    cur_directory = os.path.join(base_dir, iso, shapeID, "imagery")
     try:
         os.mkdir(cur_directory)
     except:
         shutil.rmtree(cur_directory)
         os.mkdir(cur_directory)
-
-    # Make a new directory to organize the imagery
-    # cur_directory = os.path.join("./data/", iso, shapeID, "imagery")
-    # os.mkdir(cur_directory)
 
     boxes_dict = {}
 
