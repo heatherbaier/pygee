@@ -149,7 +149,7 @@ def save_boundary_pngs(shapeID, iso, v = True):
             stack = np.dstack([np.array(i) for i in [b3, b2, b1]])
             PIL_image = Image.fromarray(np.uint8(stack))#.convert('RGB')
 
-            PIL_image.save(os.path.join(SAVE_DIR, (image_name + "_MAY" + ".png")))
+            PIL_image.save(os.path.join(SAVE_DIR, (image_name + ".png")))
 
             [os.remove(os.path.join(TEMP_DIR, i)) for i in os.listdir(TEMP_DIR)]
             

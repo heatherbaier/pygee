@@ -267,15 +267,16 @@ def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, v = True):
             # Get the 4 point bounding box of the ADM2 to limit the export region
             geometry = ee.Geometry.Rectangle(list(row.geometry.bounds))
 
-            fname = cur_directory + "/" + shapeID + "_" + str(year) + "_" + str(month) + "_box" + str(row.shapeID) + ".zip"
+            fname = cur_directory + "/" + shapeID + "_" + str(year) + "_" + str(month) + ".zip"
 
             # Get the URL download link
             link = m.getDownloadURL({
-                    'name': shapeID + "_" + str(year) + "_" + str(month) + "_box" + str(row.shapeID),
+                    'name': shapeID + "_" + str(year) + "_" + str(month),
                     'crs': 'EPSG:4326',
                     'fileFormat': 'GeoTIFF',
                     'region': geometry,
-                    'scale':30
+                    'scale':30,
+                    'maxPixels': 1e9
             })
 
             r = requests.get(link, allow_redirects = True)
