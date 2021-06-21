@@ -1,0 +1,4 @@
+06/21/2021
+    - downloadGB: added base directory input param
+    - download_imagery: added base directory input param
+    - save_pngs: added base directory input param
