@@ -86,7 +86,7 @@ def main(year, ic, shp, month, iso):
 
 
 
-def download_imagery(shapeID, year, ic, month, iso, base_dir, v = True):
+def download_imagery(shapeID, year, ic, month, iso, base_dir, v = True, cloud_free = False):
 
     """
     ARGS:
@@ -151,7 +151,10 @@ def download_imagery(shapeID, year, ic, month, iso, base_dir, v = True):
                 print(row.shapeID, " has ", l5.size().getInfo(), " images available in ", year)
 
             # Mosaic the images together using the min (using min to avoid the high values of clouds)
-            m = ee.Algorithms.Landsat.simpleComposite(l5).select(['B3', 'B2', 'B1'])
+            if cloud_free:
+                m = ee.Algorithms.Landsat.simpleComposite(l5).select(['B3', 'B2', 'B1'])
+            else:
+                m = l5.min()
 
             m = m.clip(cur_shp)
 
@@ -179,7 +182,7 @@ def download_imagery(shapeID, year, ic, month, iso, base_dir, v = True):
 
 
 
-def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, base_dir, v = True):
+def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, base_dir, v = True, cloud_free = False):
 
     """
     ARGS:
@@ -256,7 +259,10 @@ def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, base_dir, 
                 print(row.shapeID, " has ", l5.size().getInfo(), " images available in ", year)
 
             # Mosaic the images together using the min (using min to avoid the high values of clouds)
-            m = ee.Algorithms.Landsat.simpleComposite(l5).select(['B3', 'B2', 'B1'])
+            if cloud_free:
+                m = ee.Algorithms.Landsat.simpleComposite(l5).select(['B3', 'B2', 'B1'])
+            else:
+                m = l5.min()
 
             m = m.clip(cur_shp)
 
