@@ -262,7 +262,7 @@ def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, base_dir, 
             if ic == "LANDSAT/LT05/C01/T1":
                 m = ee.Algorithms.Landsat.simpleComposite(l5).select(['B3', 'B2', 'B1'])
             else:
-                m = l5.select(['B4', 'B3', 'B2']).min()
+                m = l5.select(['B4', 'B3', 'B2']).median()
 
             m = m.clip(cur_shp)
 
