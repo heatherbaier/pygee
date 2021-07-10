@@ -222,19 +222,19 @@ def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, base_dir, 
     # SetUp(year, month, iso)
 
     cur_directory = os.path.join(base_dir, iso, shapeID)
-    try:
-        os.mkdir(cur_directory)
-    except:
+    # try:
+    os.makedirs(cur_directory, exist_ok = True)
+    # except:
         
-        shutil.rmtree(cur_directory)
-        os.mkdir(cur_directory)
+    #     shutil.rmtree(cur_directory)
+    #     os.mkdir(cur_directory)
     
     cur_directory = os.path.join(base_dir, iso, shapeID, "imagery")
-    try:
-        os.mkdir(cur_directory)
-    except:
-        shutil.rmtree(cur_directory)
-        os.mkdir(cur_directory)
+    # try:
+    os.makedirs(cur_directory, exist_ok = True)
+    # except:
+    #     shutil.rmtree(cur_directory)
+    #     os.mkdir(cur_directory)
 
     boxes_dict = {}
 

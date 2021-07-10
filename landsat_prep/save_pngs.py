@@ -74,11 +74,11 @@ def save_boundary_pngs(shapeID, iso, base_dir, v = True):
     dir_length = len(os.listdir(FULL_DIR))
     num = 0
 
-    try:
-        os.mkdir(SAVE_DIR)
-    except:
-        shutil.rmtree(SAVE_DIR)
-        os.mkdir(SAVE_DIR)
+    # try:
+    os.makedirs(SAVE_DIR, exist_ok = True)
+    # except:
+    #     shutil.rmtree(SAVE_DIR)
+    #     os.mkdir(SAVE_DIR)
 
     for zipfolder in os.listdir(FULL_DIR):
     
