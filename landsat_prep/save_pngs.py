@@ -120,4 +120,4 @@ def save_boundary_pngs(shapeID, iso, base_dir, v = True, l = 8):
             
             print(e)
 
-    shutil.rmtree(TEMP_DIR)
+    shutil.rmtree(TEMP_DIR, ignore_errors = True)
