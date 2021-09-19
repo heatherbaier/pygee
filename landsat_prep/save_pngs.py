@@ -66,7 +66,7 @@ def save_pngs(shapeID, iso, base_dir, v = True):
 
 
 
-def save_boundary_pngs(shapeID, iso, base_dir, v = True):
+def save_boundary_pngs(shapeID, iso, base_dir, v = True, l = 8):
 
     FULL_DIR = os.path.join(base_dir, iso, shapeID, "imagery")
     TEMP_DIR = os.path.join(base_dir, iso, shapeID, "temp")
@@ -96,9 +96,16 @@ def save_boundary_pngs(shapeID, iso, base_dir, v = True):
                 zip_ref.extractall(TEMP_DIR)
 
             tiff_files = os.listdir(TEMP_DIR)
-            b1 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B1.tif")][0])
-            b2 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B2.tif")][0])
-            b3 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B3.tif")][0])
+            
+            if l == 8:
+                b1 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B2.tif")][0])
+                b2 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B3.tif")][0])
+                b3 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B4.tif")][0])
+                
+            if l == 5:
+                b1 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B1.tif")][0])
+                b2 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B2.tif")][0])
+                b3 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B3.tif")][0])                
 
             b1, b2, b3 = rio.open(b1).read(1), rio.open(b2).read(1), rio.open(b3).read(1)
             b1, b2, b3 = Image.fromarray(np.uint8(b1)), Image.fromarray(np.uint8(b2)), Image.fromarray(np.uint8(b3))
