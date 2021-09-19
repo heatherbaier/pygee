@@ -108,7 +108,7 @@ def save_boundary_pngs(shapeID, iso, base_dir, v = True, l = 8):
                 b3 = os.path.join(TEMP_DIR, [i for i in tiff_files if i.endswith("B3.tif")][0])                
 
             b1, b2, b3 = rio.open(b1).read(1), rio.open(b2).read(1), rio.open(b3).read(1)
-            b1, b2, b3 = Image.fromarray(np.uint8(b1)), Image.fromarray(np.uint8(b2)), Image.fromarray(np.uint8(b3))
+            b1, b2, b3 = Image.fromarray(np.uint16(b1) / 255), Image.fromarray(np.uint16(b2) / 255), Image.fromarray(np.uint16(b3) / 255)
             stack = np.dstack([np.array(i) for i in [b3, b2, b1]])
             PIL_image = Image.fromarray(np.uint8(stack))#.convert('RGB')
 
