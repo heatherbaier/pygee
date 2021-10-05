@@ -182,7 +182,7 @@ def download_imagery(shapeID, year, ic, month, iso, base_dir, v = True, cloud_fr
 
 
 
-def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, base_dir, v = True, cloud_free = False):
+def download_boundary_imagery(shp, shapeID, year, ic, month, iso, base_dir, v = True, cloud_free = False):
 
     """
     ARGS:
@@ -209,8 +209,8 @@ def download_boundary_imagery(gb_path, shapeID, year, ic, month, iso, base_dir, 
                          v = V)
     """
 
-    SHP_PATH = gb_path
-    shp = gpd.read_file(SHP_PATH)
+#     SHP_PATH = gb_path
+#     shp = gpd.read_file(SHP_PATH)
     shp = shp[shp['shapeID'] == shapeID]
 
     ee.Initialize()
