@@ -250,7 +250,7 @@ def download_boundary_imagery(shp, shapeID, year, ic, month, iso, base_dir, v = 
                 # Mosaic the images together using the min (using min to avoid the high values of clouds)
                 if ic == "LANDSAT/LT05/C01/T1":
                     m = ee.Algorithms.Landsat.simpleComposite(l5).select(['B3', 'B2', 'B1'])
-                elif ic == "LANDSAT/LC08/C01/T1":
+                else:
                     m = l5.select(['B4', 'B3', 'B2']).median()
                     
             else:
