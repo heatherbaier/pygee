@@ -182,7 +182,7 @@ def download_imagery(shapeID, year, ic, month, iso, base_dir, v = True, cloud_fr
 
 
 
-def download_boundary_imagery(shp, shapeID, year, ic, month, iso, base_dir, v = True, cloud_free = False):
+def download_boundary_imagery(shp, shapeID, year, ic, month, iso, base_dir, v = True, cloud_free = False, im = False):
 
     """
     ARGS:
@@ -209,8 +209,6 @@ def download_boundary_imagery(shp, shapeID, year, ic, month, iso, base_dir, v = 
                          v = V)
     """
 
-#     SHP_PATH = gb_path
-#     shp = gpd.read_file(SHP_PATH)
     shp = shp[shp['shapeID'] == shapeID]
 
     ee.Initialize()
@@ -219,22 +217,11 @@ def download_boundary_imagery(shp, shapeID, year, ic, month, iso, base_dir, v = 
     dates = GetDays(year, month)
 
     # Set up imagery directories
-    # SetUp(year, month, iso)
-
     cur_directory = os.path.join(base_dir, iso, shapeID)
-    # try:
     os.makedirs(cur_directory, exist_ok = True)
-    # except:
-        
-    #     shutil.rmtree(cur_directory)
-    #     os.mkdir(cur_directory)
-    
+
     cur_directory = os.path.join(base_dir, iso, shapeID, "imagery")
-    # try:
     os.makedirs(cur_directory, exist_ok = True)
-    # except:
-    #     shutil.rmtree(cur_directory)
-    #     os.mkdir(cur_directory)
 
     boxes_dict = {}
 
@@ -257,12 +244,18 @@ def download_boundary_imagery(shp, shapeID, year, ic, month, iso, base_dir, v = 
 
             if v:
                 print(row.shapeID, " has ", l5.size().getInfo(), " images available in ", year)
+                
+            if not im:
 
-            # Mosaic the images together using the min (using min to avoid the high values of clouds)
-            if ic == "LANDSAT/LT05/C01/T1":
-                m = ee.Algorithms.Landsat.simpleComposite(l5).select(['B3', 'B2', 'B1'])
+                # Mosaic the images together using the min (using min to avoid the high values of clouds)
+                if ic == "LANDSAT/LT05/C01/T1":
+                    m = ee.Algorithms.Landsat.simpleComposite(l5).select(['B3', 'B2', 'B1'])
+                elif ic == "LANDSAT/LC08/C01/T1":
+                    m = l5.select(['B4', 'B3', 'B2']).median()
+                    
             else:
-                m = l5.select(['B4', 'B3', 'B2']).median()
+                
+                l5 = ee.Image(ic)
 
             m = m.clip(cur_shp)
 
