@@ -85,11 +85,11 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, cloud_free = 
         # Get the 4 point bounding box of the ADM2 to limit the export region
         region = ee.Geometry.Rectangle(list(geom.bounds))
 
-        fname = cur_directory + "/" + shapeID + "_" + "_".join(dates) + "_" + str(month) + ".zip"
+        fname = cur_directory + "/" + shapeID + "_" + "_".join(dates) + ".zip"
 
         # Get the URL download link
         link = m.getDownloadURL({
-                'name': shapeID + "_" + "_".join(dates) + "_" + str(month),
+                'name': shapeID + "_" + "_".join(dates),
                 'crs': 'EPSG:4326',
                 'fileFormat': 'GeoTIFF',
                 'region': region,
