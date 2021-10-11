@@ -193,7 +193,8 @@ def GetDates(start, end, d):
     return final_dates
 
 
-def ConvertToFeature(shp):
+def convert_to_ee_feature(shp):
+    
     """
     Function to convert shapely polygons/geopandas DF to GEE Feature Collection
     
