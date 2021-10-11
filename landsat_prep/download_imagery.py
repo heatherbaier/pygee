@@ -27,7 +27,7 @@ from .helpers import *
 
 
 
-def download_imagery(geom, shapeID, ic, dates, dir, bands, cloud_free = False, im = False, v = True):
+def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, cloud_free = False, im = False, v = True):
 
     """
     ARGS:
