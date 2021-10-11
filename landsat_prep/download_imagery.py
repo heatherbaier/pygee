@@ -74,7 +74,7 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, cloud_free = 
         elif not im:
             imagery = ee.ImageCollection(ic).filterDate(dates[0], dates[1]).filterBounds(cur_shp)
             if v:
-                print(shapeID, " has ", imagery.size().getInfo(), " images available in ", year)
+                print(shapeID, " has ", imagery.size().getInfo(), " images available between ", " and ".join(dates))
             if cloud_free:
                 m = ee.Algorithms.Landsat.simpleComposite(imagery).select(bands)
             elif not cloud_free:
@@ -85,11 +85,11 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, cloud_free = 
         # Get the 4 point bounding box of the ADM2 to limit the export region
         region = ee.Geometry.Rectangle(list(geom.bounds))
 
-        fname = cur_directory + "/" + shapeID + "_" + str(year) + "_" + str(month) + ".zip"
+        fname = cur_directory + "/" + shapeID + "_" + "_".join(dates) + "_" + str(month) + ".zip"
 
         # Get the URL download link
         link = m.getDownloadURL({
-                'name': shapeID + "_" + str(year) + "_" + str(month),
+                'name': shapeID + "_" + "_".join(dates) + "_" + str(month),
                 'crs': 'EPSG:4326',
                 'fileFormat': 'GeoTIFF',
                 'region': region,
