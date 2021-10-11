@@ -61,8 +61,8 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, cloud_free = 
     cur_directory = os.path.join(imagery_dir, shapeID)
     os.makedirs(cur_directory, exist_ok = True)
 
-    cur_directory = os.path.join(imagery_dir, shapeID, "imagery")
-    os.makedirs(cur_directory, exist_ok = True)
+    # cur_directory = os.path.join(imagery_dir, shapeID, "imagery")
+    # os.makedirs(cur_directory, exist_ok = True)
 
     try:
 
