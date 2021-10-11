@@ -213,8 +213,11 @@ def download_boundary_imagery(shp, shapeID, year, ic, month, iso, base_dir, v = 
 
     ee.Initialize()
 
-    # Get the start and end dates of each month in the year to filter the imagery
-    dates = GetDays(year, month)
+    if type(month) != list:
+        # Get the start and end dates of each month in the year to filter the imagery
+        dates = GetDays(year, month)
+    elif type(month) == list:
+        dates = month
 
     # Set up imagery directories
     cur_directory = os.path.join(base_dir, iso, shapeID)
