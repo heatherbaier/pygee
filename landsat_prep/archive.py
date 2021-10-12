@@ -1,3 +1,16 @@
+
+
+    # if type(month) != list:
+    #     # Get the start and end dates of each month in the year to filter the imagery
+    #     dates = GetDays(year, month)
+    # elif type(month) == list:
+    #     dates = month
+
+
+
+
+
+
 def main(year, ic, shp, month, iso):
 
     ee.Initialize()
