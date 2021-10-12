@@ -18,7 +18,7 @@ import os
 from .helpers import *
 
 
-def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, cloud_free = False, im = False, v = True):
+def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, cloud_free = False, im = False, v = True):
     
     ee.Initialize()
 
@@ -51,7 +51,7 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, cloud_free = 
                 'crs': 'EPSG:4326',
                 'fileFormat': 'GeoTIFF',
                 'region': region,
-                'scale': 250,
+                'scale': scale,
                 'maxPixels': 1e9
         })
 
