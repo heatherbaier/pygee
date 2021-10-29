@@ -23,7 +23,9 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
     ee.Initialize()
 
     cur_directory = os.path.join(imagery_dir, shapeID)
-    os.makedirs(cur_directory, exist_ok = True)
+    
+    if not os.path.isdir(cur_directory):
+        os.makedirs(cur_directory)
 
     try:
 
