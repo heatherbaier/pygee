@@ -9,6 +9,6 @@ setup(
     author_email='hmbaier@email.wm.edu',
     license='unlicense',
     packages=['landsat_prep'],
-    install_requires = ["earthengine-api", "rasterio", "torchvision", "joblib", "geopandas"],
+    install_requires = ["rasterio", "torchvision", "joblib", "geopandas"],
     zip_safe=False
 )
