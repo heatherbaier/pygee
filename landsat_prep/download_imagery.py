@@ -34,7 +34,10 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
         if im:
             imagery = ee.Image(ic)
         elif not im:
-            imagery = ee.ImageCollection(ic).filterDate(dates[0], dates[1]).filterBounds(cur_shp)
+            if dates is not None:
+                imagery = ee.ImageCollection(ic).filterDate(dates[0], dates[1]).filterBounds(cur_shp)
+            else:
+                imagery = ee.ImageCollection(ic).filterBounds(cur_shp)
             if v:
                 print(shapeID, " has ", imagery.size().getInfo(), " images available between ", " and ".join(dates))
             if cloud_free:
