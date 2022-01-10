@@ -32,7 +32,10 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
         cur_shp = convert_to_ee_feature(geom)
 
         if im:
-            imagery = ee.Image(ic)
+#             if bands == None:
+            m = ee.Image(ic)
+            if bands is not None:
+                m = m.select(bands)
         elif not im:
             if dates is not None:
                 imagery = ee.ImageCollection(ic).filterDate(dates[0], dates[1]).filterBounds(cur_shp)
