@@ -51,11 +51,17 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
         m = m.clip(cur_shp)
 
         region = ee.Geometry.Rectangle(list(geom.bounds))
-        fname = cur_directory + "/" + shapeID + "_" + "_".join(dates) + ".zip"
+        
+        if dates is not None:
+            fname = cur_directory + "/" + shapeID + "_" + "_".join(dates) + ".zip"
+            lname = shapeID + "_" + "_".join(dates)
+        else:
+            fname = cur_directory + "/" + shapeID + ".zip"
+            lname = shapeID
 
         # Get the URL download link
         link = m.getDownloadURL({
-                'name': shapeID + "_" + "_".join(dates),
+                'name': lname,
                 'crs': 'EPSG:4326',
                 'fileFormat': 'GeoTIFF',
                 'region': region,
@@ -65,7 +71,7 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
 
         r = requests.get(link, allow_redirects = True)
         open(fname, 'wb').write(r.content)
-
+        
     except Exception as e:
 
         print(e)
