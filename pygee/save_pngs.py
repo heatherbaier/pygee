@@ -66,11 +66,16 @@ def save_pngs(shapeID, iso, base_dir, v = True):
 
 
 
-def save_boundary_pngs(shapeID, iso, base_dir, v = True, l = 8):
+def save_boundary_pngs(shapeID, iso, base_dir, export_dir = None, v = True, l = 8):
     
     FULL_DIR = os.path.join(base_dir, iso, shapeID)
     TEMP_DIR = os.path.join(base_dir, iso, shapeID, "temp")
-    SAVE_DIR = os.path.join(base_dir, iso, shapeID)
+    
+    if export_dir is None:
+        SAVE_DIR = os.path.join(base_dir, iso, shapeID)
+    else:
+        SAVE_DIR = export_dir
+    
     dir_length = len(os.listdir(FULL_DIR))
     num = 0
 
