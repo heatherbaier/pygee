@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 import matplotlib.pyplot as plt
+from PIL import Image
 import geopandas as gpd
 import pandas as pd
 import numpy as np
@@ -13,6 +14,19 @@ import os
 import ee
 
 
+def center_crop(im, new_width, new_height):
+        
+    width, height = im.size   # Get dimensions
+
+    left = (width - new_width)/2
+    top = (height - new_height)/2
+    right = (width + new_width)/2
+    bottom = (height + new_height)/2
+
+    # Crop the center of the image
+    im = im.crop((left, top, right, bottom))
+    
+    return im
 
 
 def make_boxes(intersected_points, box, utm_proj):

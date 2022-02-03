@@ -2,3 +2,10 @@
     - downloadGB: added base directory input param
     - download_imagery: added base directory input param
     - save_pngs: added base directory input param
+01/2022
+    - changed directory/package name from landsat_prep to pygee
+    - removed nested imagery folders
+02/03/2022
+    - changed helpers.py to utils.py and added clip image functionality
+    - fixed save_pngs.py the updated file paths
+    - added export_dir options to save_pngs.py

@@ -15,7 +15,7 @@ import shutil
 import ee
 import os
 
-from .helpers import *
+from .utils import *
 
 
 def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, cloud_free = False, im = False, v = True):
