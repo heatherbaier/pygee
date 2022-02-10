@@ -9,6 +9,6 @@ setup(
     author_email='hmbaier@email.wm.edu',
     license='unlicense',
     packages=['pygee'],
-    install_requires = ["rasterio", "torchvision", "joblib", "geopandas"],
+    install_requires = ["rasterio", "joblib", "geopandas"],
     zip_safe=False
 )
