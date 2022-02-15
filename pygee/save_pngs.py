@@ -4,7 +4,6 @@ import numpy as np
 import zipfile
 import imageio
 import shutil
-import cv2
 import os
 
 # from .utils import *
