@@ -1,7 +1,8 @@
 from datetime import date, timedelta
 import matplotlib.pyplot as plt
-from PIL import Image
+from math import sqrt, floor
 import geopandas as gpd
+from PIL import Image
 import pandas as pd
 import numpy as np
 import calendar
@@ -290,4 +291,50 @@ def ListifyPoints(x, index):
     x = np.array(x)
     return x[index]
 
+
+def isPerfect(N):
+    if (sqrt(N) - floor(sqrt(N)) != 0):
+        return False
+    return True
+
+
+def getClosestPerfectSquare(N):
+    if (isPerfect(N)):
+#         print(N, "0")
+        return N
+ 
+    # Variables to store first perfect
+    # square number above and below N
+    aboveN = -1
+    belowN = -1
+    n1 = 0
+ 
+    # Finding first perfect square
+    # number greater than N
+    n1 = N + 1
+    while (True):
+        if (isPerfect(n1)):
+            aboveN = n1
+            break
+        else:
+            n1 += 1
+ 
+    # Finding first perfect square
+    # number less than N
+    n1 = N - 1
+    while (True):
+        if (isPerfect(n1)):
+            belowN = n1
+            break
+        else:
+            n1 -= 1
+             
+    # Variables to store the differences
+    diff1 = aboveN - N
+    diff2 = N - belowN
+ 
+    if (diff1 > diff2):
+        return belowN
+    else:
+        return aboveN
 
