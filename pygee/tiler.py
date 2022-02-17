@@ -78,7 +78,9 @@ class Tiler():
         for c, featB in enumerate(self.grid.geometry):
             if shape(self.shp['geometry'].to_list()[0]).intersects(shape(featB)):
                 fc_intersect.append(featB)
-        return gpd.GeoDataFrame(geometry = fc_intersect)
+        tiles = gpd.GeoDataFrame(geometry = fc_intersect)
+        tiles['shapeID'] = [i for i in range(0, len(tiles))]
+        return tiles
     
     
     def plot(self, intersected = True):
