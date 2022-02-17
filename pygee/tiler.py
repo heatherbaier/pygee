@@ -7,7 +7,7 @@ import shapely
 import pygee
 import os
 
-from .helpers import *
+from .utils import *
 
 
 class Tiler():
