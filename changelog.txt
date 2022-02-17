@@ -9,3 +9,5 @@
     - changed helpers.py to utils.py and added clip image functionality
     - fixed save_pngs.py the updated file paths
     - added export_dir options to save_pngs.py
+02/17/2022
+    - add tiling function/class for when images are too big to grab from GEE getDownloadURL
