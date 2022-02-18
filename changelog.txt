@@ -10,4 +10,7 @@
     - fixed save_pngs.py the updated file paths
     - added export_dir options to save_pngs.py
 02/17/2022
-    - add tiling function/class for when images are too big to grab from GEE getDownloadURL
+    - added tiling function/class for when images are too big to grab from GEE getDownloadURL
+02/18/2022
+    - added function for converting a whole dataframe to bounding box form
+    - added a function to remove the smaller parts of mulitpolygons (remove_islands)
