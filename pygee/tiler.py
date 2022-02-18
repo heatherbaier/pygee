@@ -47,7 +47,7 @@ class Tiler():
 
         polys = []
         for yi in range(0, num_breaks + 1):
-            for xi in range(1, num_breaks + 1):
+            for xi in range(0, num_breaks + 1):
                 minx = bounds[0] + (x_increment * xi)
                 miny = bounds[1] + (y_increment * yi)
                 maxx = bounds[0] + (x_increment * (xi + 1))
