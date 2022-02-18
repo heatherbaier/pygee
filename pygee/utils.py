@@ -338,3 +338,11 @@ def getClosestPerfectSquare(N):
     else:
         return aboveN
 
+
+def calc_bbox(x):
+    return shapely.geometry.box(*x.bounds, ccw=True)
+
+
+def convert_to_bbox(shp):
+    shp.geometry = shp.geometry.apply(lambda x: calc_bbox(x))
+    return shp
