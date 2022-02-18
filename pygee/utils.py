@@ -346,3 +346,13 @@ def calc_bbox(x):
 def convert_to_bbox(shp):
     shp.geometry = shp.geometry.apply(lambda x: calc_bbox(x))
     return shp
+
+
+def remove_islands(shp, id_column = "shapeID"):
+    shp = shp.dropna(subset = ['geometry'])
+    shp = shp.explode(index_parts = True)#.head(10)
+    shp["area"] = shp.geometry.area
+    shp = shp.reset_index()
+    shp = shp.sort_values(by = [id_column, "area"], ascending = False)
+    shp = shp.drop_duplicates(subset = [id_column])
+    return shp
