@@ -17,6 +17,30 @@ import os
 
 from .utils import *
 
+from .tiler import *
+
+
+def download_large_imagery(shapeID,
+                           geom,
+                           IC,
+                           dates,
+                           imagery_dir,
+                           bands):
+    
+        tiles = Tiler(shapeID = str(row.shapeID),
+                            geom = geom).int_grid         
+
+        temp_dir = os.path.join(imagery_dir, str(shapeID))
+
+        for tile_col, tile_row in tiles.iterrows():
+
+            download_imagery(geom = tile_row.geometry,
+                                   shapeID = shapeID + "_box" + str(tile_row.shapeID),
+                                   ic = IC, 
+                                   dates = dates, 
+                                   imagery_dir = temp_dir, 
+                                   bands = bands)
+
 
 def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, cloud_free = False, im = False, v = True):
     
@@ -29,7 +53,7 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
 
     try:
 
-        cur_shp = convert_to_ee_feature(geom)
+        cur_shp = pygee.convert_to_ee_feature(geom)
 
         if im:
 #             if bands == None:
@@ -58,7 +82,8 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
         else:
             fname = cur_directory + "/" + shapeID + ".zip"
             lname = shapeID
-
+            
+            
         # Get the URL download link
         link = m.getDownloadURL({
                 'name': lname,
@@ -68,11 +93,24 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
                 'scale': scale,
                 'maxPixels': 1e9
         })
+                
 
         r = requests.get(link, allow_redirects = True)
         open(fname, 'wb').write(r.content)
         
+ 
     except Exception as e:
-
-        print(e)
+                
+        if "must be less than or equal to" in str(e):
+            
+            download_large_imagery(shapeID,
+                                   geom,
+                                   ic,
+                                   dates,
+                                   imagery_dir,
+                                   bands)
+            
+        else:
+            
+            print(e)
 
