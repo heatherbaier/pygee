@@ -14,3 +14,6 @@
 02/18/2022
     - added function for converting a whole dataframe to bounding box form
     - added a function to remove the smaller parts of mulitpolygons (remove_islands)
+02/23/2022
+    - added the large imagery tiling function into the main dwonload imagery function
+    - added utm package to setup.py
