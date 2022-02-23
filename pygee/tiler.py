@@ -11,37 +11,58 @@ import os
 from .utils import *
 
 
+import pyproj
+from shapely.geometry import Point
+from shapely.ops import transform
+
+def convert_to_meters(geom):    
+    
+    centroid = geom.centroid
+    utm_zone = utm.from_latlon(centroid.y, centroid.x)[2]
+    proj4 = "+proj=utm +zone=" + str(utm_zone) + " +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+    
+    wgs84 = pyproj.CRS('EPSG:4326')
+    proj4 = pyproj.CRS.from_proj4(proj4)
+        
+    project = pyproj.Transformer.from_crs(wgs84, proj4, always_xy=True).transform
+
+    utm_poly = transform(project, geom)    
+    
+    return utm_poly, proj4.to_epsg()
+
+
 class Tiler():
     
-    def __init__(self, shapeID, shp, bbox_shp, crs, to_gdf = True):
+    def __init__(self, shapeID, geom, to_gdf = True):
+        
+        """
+        geom_gdf NEEDS to be in METERS!!
+        """
         
         self.shapeID = shapeID
         
-        self.shp = shp[shp["GEOLEVEL2"] == self.shapeID]
-        
-        self.bbox_geom = bbox_shp[bbox_shp["shapeID"] == self.shapeID]
-        self.bbox_geom = self.bbox_geom.set_crs("EPSG:4326")
-        self.bbox_geom = self.bbox_geom.to_crs("EPSG:6362")
-        self.bbox_geom = self.bbox_geom.geometry.to_list()[0]
+        self.geom = geom
+        self.utm_geom, self.utm_crs = convert_to_meters(self.geom)
         
         self.to_gdf = to_gdf
-        self.og_crs = crs
         self.grid = self.__partition()
         self.int_grid = self.__get_intersection()
         
     def __partition(self):
 
-        bounds = self.bbox_geom.bounds
-
+        bounds = self.utm_geom.bounds
+                
         width = bounds[2] - bounds[0]
         height = bounds[3] - bounds[1]
-
+        
         num_pixels = (width * height) / 30**2
         num_partiitons = num_pixels / (1000 ** 2)
         num_partitions = getClosestPerfectSquare(int(num_partiitons))
+        
         if num_partitions == 0:
             num_partitions = 4
         num_breaks = int(math.sqrt(num_partitions))
+        
 
         x_increment, y_increment = width / num_breaks, height / num_breaks
 
@@ -66,7 +87,7 @@ class Tiler():
             gdf['shapeID'] = [i for i in range(0, len(gdf))]
             gdf['area'] = gdf.geometry.area
             gdf = gdf[gdf['area'] != 0].drop(['area'], axis = 1)
-            gdf = gdf.set_crs(self.og_crs)
+            gdf = gdf.set_crs(self.utm_crs)
             gdf = gdf.to_crs("EPSG:4326")        
             return gdf
         else:
@@ -76,16 +97,8 @@ class Tiler():
     def __get_intersection(self):
         fc_intersect = []
         for c, featB in enumerate(self.grid.geometry):
-            if shape(self.shp['geometry'].to_list()[0]).intersects(shape(featB)):
+            if shape(self.geom).intersects(shape(featB)):
                 fc_intersect.append(featB)
         tiles = gpd.GeoDataFrame(geometry = fc_intersect)
         tiles['shapeID'] = [i for i in range(0, len(tiles))]
         return tiles
-    
-    
-    def plot(self, intersected = True):
-        if intersected:
-            base = self.int_grid.plot(color='white', edgecolor='black')
-        else:
-            base = self.grid.plot(color='white', edgecolor='black')            
-        self.shp.plot(ax=base, marker='o', color='red', markersize=5);
