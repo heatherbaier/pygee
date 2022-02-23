@@ -27,7 +27,7 @@ def download_large_imagery(shapeID,
                            imagery_dir,
                            bands):
     
-        tiles = Tiler(shapeID = str(row.shapeID),
+        tiles = Tiler(shapeID = shapeID,
                             geom = geom).int_grid         
 
         temp_dir = os.path.join(imagery_dir, str(shapeID))
