@@ -25,24 +25,38 @@ def download_large_imagery(shapeID,
                            IC,
                            dates,
                            imagery_dir,
-                           bands):
-    
-        tiles = Tiler(shapeID = shapeID,
-                            geom = geom).int_grid         
+                           bands,
+                           scale,
+                           max_pixels,
+                           is_temp_dir = False):
+        
+        # If it is testing a new size, there will already be a _box in the shapeID name, so remove that 
+        shapeID = shapeID.split("_")[0]
+                
+        imagery_dir = imagery_dir.strip(shapeID)
+
+        tiles = Tiler(geom = geom,
+                      max_pixels = max_pixels,
+                      scale = scale).int_grid         
 
         temp_dir = os.path.join(imagery_dir, str(shapeID))
+                
+        max_pixels -= int(max_pixels * .10)
 
         for tile_col, tile_row in tiles.iterrows():
-
+            
             download_imagery(geom = tile_row.geometry,
                                    shapeID = shapeID + "_box" + str(tile_row.shapeID),
                                    ic = IC, 
                                    dates = dates, 
                                    imagery_dir = temp_dir, 
-                                   bands = bands)
+                                   bands = bands,
+                                   scale = scale,
+                                   max_pixels = max_pixels)
 
 
-def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, cloud_free = False, im = False, v = True):
+
+def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, cloud_free = False, im = False, v = True, max_pixels = 1000):
     
     ee.Initialize()
 
@@ -100,6 +114,8 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
         
  
     except Exception as e:
+        
+        print("E: ", e)
                 
         if "must be less than or equal to" in str(e):
             
@@ -108,9 +124,12 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
                                    ic,
                                    dates,
                                    imagery_dir,
-                                   bands)
+                                   bands,
+                                   scale = scale,
+                                   max_pixels = max_pixels)
             
         else:
             
             print(e)
-
+            
+            
