@@ -33,14 +33,21 @@ def convert_to_meters(geom):
 
 class Tiler():
     
-    def __init__(self, shapeID, geom, to_gdf = True):
+    def __init__(self, geom, max_pixels = 1000, scale = 30, to_gdf = True):
         
+        """        
+        Arguments:
+            - geom = shapely polygon you want to tile
+            - max_pixels = maximum number of pixels (for both width & height) 
+              in tile (e.g. if 1000, each tile will be 1000x1000 pixels)
+            - scale = pixel size
+            - to_gdf = if False, output tiles as a list of polygons; if True, output 
+              tiles as a GeoDataframe with shapeID (0, n-1) and geometry columns
         """
-        geom_gdf NEEDS to be in METERS!!
-        """
-        
-        self.shapeID = shapeID
-        
+
+        self.scale = scale
+        self.max_pixels = max_pixels
+            
         self.geom = geom
         self.utm_geom, self.utm_crs = convert_to_meters(self.geom)
         
@@ -55,8 +62,8 @@ class Tiler():
         width = bounds[2] - bounds[0]
         height = bounds[3] - bounds[1]
         
-        num_pixels = (width * height) / 30**2
-        num_partiitons = num_pixels / (1000 ** 2)
+        num_pixels = (width * height) / self.scale**2
+        num_partiitons = num_pixels / (self.max_pixels ** 2)
         num_partitions = getClosestPerfectSquare(int(num_partiitons))
         
         if num_partitions == 0:
