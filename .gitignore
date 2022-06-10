@@ -12,3 +12,7 @@ landsat_prep/download_imagery_ipums.py
 landsat_prep/save_boxes_ipums.py
 run.sh
 .DS_Store
+imagery
+extracted
+GTM
+.ipynb_checkpoints/
