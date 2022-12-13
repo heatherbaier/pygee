@@ -9,6 +9,6 @@ setup(
     author_email='hmbaier@email.wm.edu',
     license='unlicense',
     packages=['pygee'],
-    install_requires = ["rasterio", "joblib", "geopandas", "utm"],
+    install_requires = ["rasterio", "joblib", "geopandas", "utm", "imageio", "matplotlib"],
     zip_safe=False
 )
