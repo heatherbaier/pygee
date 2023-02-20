@@ -101,16 +101,15 @@ def download_imagery(geom, shapeID, ic, dates, imagery_dir, bands, scale = 30, c
  
     except Exception as e:
                 
-        if "must be less than or equal to" in str(e):
+#         if "must be less than or equal to" in str(e):
             
-            download_large_imagery(shapeID,
-                                   geom,
-                                   ic,
-                                   dates,
-                                   imagery_dir,
-                                   bands)
+#             download_large_imagery(shapeID,
+#                                    geom,
+#                                    ic,
+#                                    dates,
+#                                    imagery_dir,
+#                                    bands)
             
-        else:
-            
-            print(e)
+#         else:
+        print(e)
 
