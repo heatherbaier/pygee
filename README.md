@@ -3,7 +3,7 @@
 
 
 ### Description
-Package to prep Landsat imagery for use deep learning models. See demo.ipynb for usage examples.
+Package to prep Landsat imagery from Google Earth Engine for use in deep learning models. See demo.ipynb for usage examples.
 
 ### Installation
 
