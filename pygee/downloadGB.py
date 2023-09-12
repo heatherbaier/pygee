@@ -1,4 +1,4 @@
-from pandas.io.json import json_normalize
+# from pandas.io.json import json_normalize
 import pandas as pd
 import requests
 import argparse
