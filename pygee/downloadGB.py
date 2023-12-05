@@ -19,11 +19,11 @@ def downloadGB(iso, adm, base_dir):
 
     # Make the request to the URL
     r = requests.get(url)
-    dlPath = r.json()[0]['staticDownloadLink']
+    dlPath = r.json()['staticDownloadLink']
     print("Downloading data from: ", dlPath)
     
     # Get the download URL
-    r = requests.get(r.json()[0]['staticDownloadLink'], allow_redirects=True)
+    r = requests.get(r.json()['staticDownloadLink'], allow_redirects=True)
 
     # Make directory for downloaded zipfolder
     tmp_dir = makeGBdir(iso, base_dir)
