@@ -14,7 +14,7 @@ from .utils import *
 def downloadGB(iso, adm, base_dir):
 
     # Create the request URL
-    url = "https://www.geoboundaries.org/gbRequest.html?ISO=" + iso + "&ADM=ADM" + adm
+    url = "https://www.geoboundaries.org/api/current/gbOpen/" + iso + "/ADM" + adm
     print("Making request to: ", url)
 
     # Make the request to the URL
