@@ -37,14 +37,14 @@ def downloadGB(iso, adm, base_dir):
         zip_ref.extractall(tmp_dir)
 
     # Grab the name of the second zipfolder
-    to_open = [i for i in os.listdir(tmp_dir) if i.endswith(".zip") and i.startswith('geo')]
+    # to_open = [i for i in os.listdir(tmp_dir) if i.endswith(".zip") and i.startswith('geo')]
 
     # Extract the files from the second zipfolder
-    with zipfile.ZipFile(os.path.join(tmp_dir, to_open[0]), 'r') as zip_ref:
-        zip_ref.extractall(tmp_dir)
+    # with zipfile.ZipFile(os.path.join(tmp_dir, to_open[0]), 'r') as zip_ref:
+        # zip_ref.extractall(tmp_dir)
     
     # Clean up directory
-    to_delete = [i for i in os.listdir(tmp_dir) if i.endswith(".zip") or i.startswith('geo')]
+    to_delete = [i for i in os.listdir(tmp_dir) if i.endswith(".zip")]
     for i in to_delete:
       os.remove(os.path.join(tmp_dir, i))
     
